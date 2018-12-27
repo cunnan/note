@@ -1,0 +1,219 @@
+Grid属性目录
+	网格容器(Grid Container) 属性
+		display
+		grid-template-columns
+		grid-template-rows
+		grid-template-areas
+		grid-template //简写
+		grid-column-gap
+		grid-row-gap
+		grid-gap //简写
+		justify-items
+		align-items
+		place-items //简写
+		justify-content
+		align-content
+		place-content //简写
+		grid-auto-columns
+		grid-auto-rows
+		grid-auto-flow
+		grid //简写
+	网格项(Grid Items) 属性
+		grid-column-start
+		grid-column-end
+		grid-row-start
+		grid-row-end
+		grid-column
+		grid-row
+		grid-area
+		justify-self
+		align-self
+		place-self
+	容器属性设置
+		定义容器
+			.container {
+				//display: inline-grid; 生成一个内联网格
+			  display: grid;
+			}
+		定义轨道和线
+			.container {
+			  grid-template-columns: 40px 50px auto 50px 40px;
+			  grid-template-rows: 25% 100px auto;
+			}
+			.container {
+			  grid-template-columns: [first] 40px [line2] 50px [line3] auto [col4-start] 50px [five] 40px [end];
+			  grid-template-rows: [row1-start] 25% [row1-end] 100px [third-line] auto [last-line];
+			}
+			.container {
+			  grid-template-rows: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+			}
+			.container {
+			  grid-template-columns: repeat(3, 20px [col-start]);
+			}
+			.container {
+			  grid-template-columns: 20px [col-start] 20px [col-start] 20px [col-start];
+			}
+			.container {
+			  grid-template-columns: 1fr 1fr 1fr;
+			}
+			.container {
+			  grid-template-columns: 1fr 50px 1fr 1fr;
+			}
+				引用项目
+					如果多行共享相同的网格线名称，则可以通过其网格线名称和计数来引用它们
+						.item {
+						  grid-column-start: col-start 2;
+		定义网格模板块
+			.container {
+			  //none代表不定义网格区域，.代表一个空的网格单元
+			  grid-template-areas: 
+			    "none header header  header"
+			    "main main . sidebar"
+			    "footer footer footer footer";
+			}		
+		定义网格线间隙
+			.container {
+				//这三个属性将删除 grid- 前缀
+			  grid-column-gap: 10px;
+			  grid-row-gap: 15px;
+			  //等价于
+			  grid-gap:10px 15px;
+			}
+			.container{
+			  grid-column-gap: 10px;
+			  grid-row-gap: 10px; 
+			  /* 等价于 */  
+			  grid-gap: 10px;
+			}
+		定义网格项水平和垂直方向的对齐方式
+			.container {
+			  align-items: start | end | center | stretch;
+			  justify-items: start | end | center | stretch;
+			  //简写，两个值相同时可以写一个值
+			  place-items:align-items justify-items;
+			}
+		定义容器内的多行多列网格的对齐方式
+			.container {
+			  align-content: start | end | center | stretch | space-around | space-between | space-evenly（均匀分布）;
+			  justify-content: start | end | center | stretch | space-around | space-between | space-evenly;  
+			  //简写，两个值相同时可以写一个值
+			  place-content:align-content justify-content;  
+			}
+		定义隐式网格单元的大小（宽高）
+			.container {
+				//长度值，百分比，或者等份网格容器中可用空间的分数（使用 fr 单位）
+			  grid-auto-columns: <track-size> ...;
+			  grid-auto-rows: <track-size> ...;
+			}
+			.container {
+			  grid-auto-columns: 120px;
+			  grid-auto-rows: 60px;
+			}
+		自动放置项目
+			如果你有一些没有明确放置在网格上的网格项(grid items)，自动放置算法 会自动放置这些网格项
+			.container {
+				//row：告诉自动布局算法依次填充每行，根据需要添加新行 （默认）
+				//column：告诉自动布局算法依次填入每列，根据需要添加新列
+				//dense：告诉自动布局算法在稍后出现较小的网格项时，尝试填充网格中较早的空缺
+			  grid-auto-flow: row | column | row dense | column dense
+			}
+	项目属性设置
+		注意：float，display: inline-block，display: table-cell，vertical-align 和 column-* 属性对网格项无效
+		项目可以相互重叠。您可以使用 z-index 来控制它们的重叠顺序
+		通过引用网格线指定项目在容器的位置
+			.item {
+				//auto：表示自动放置，自动跨度，默认会扩展一个网格轨道的宽度或者高度
+			  grid-column-start: <number> | <name> | span <number> | span <name> | auto
+			  grid-column-end: <number> | <name> | span <number> | span <name> | auto
+			  grid-row-start: <number> | <name> | span <number> | span <name> | auto
+			  grid-row-end: <number> | <name> | span <number> | span <name> | auto
+			}
+			.item {
+			  grid-column-start: 1;
+			  grid-column-end: span col4-start;
+			  grid-row-start: 2
+			  grid-row-end: span 2
+			}
+			//简写
+			.item {
+			  grid-column: <start-line> / <end-line> | <start-line> / span <value>;
+			  grid-row: <start-line> / <end-line> | <start-line> / span <value>;
+			}
+			.item {
+			  grid-column: 3 / span 2;
+			  //如果没有声明分隔线结束位置，则该网格项默认占据 1 个网格轨道。
+			  grid-row: third-line / 4;
+			}
+		定义项目名称
+			.item {
+			  grid-area: <name> | <row-start> / <column-start> / <row-end> / <column-end>;
+			}
+			//用作定义项目名称
+			.item {
+			  grid-area: header
+			}
+			//用作指定项目在容器中的位置的简写方式
+			.item {
+			    grid-area: 1 / col4-start / last-line / 6
+			}
+		定义单个项目的内容的对齐方式
+			.item{
+			  align-self: start | end | center | stretch;
+			  justify-self: start | end | center | stretch;
+			  //简写
+			  place-self:auto(默认对齐方式)|align-self justify-self;
+			}
+
+显示网格与隐式网格
+	显示网格
+		使用 grid-template-rows，grid-template-columns 和 grid-template-areas 属性来定义
+		形成网格的固定数量的网格线和网格轨道。这种手动定义的 Grid 称为显式网格
+		.grid {
+			//auto-fill 关键字创建适合网格容器的轨道数，而不会导致网格溢出
+			//auto-fit关键词与auto-fill有点类似，只是在网格项放置之后，它只会在需要时创建尽可能多的轨道，而重复的
+			//空轨道会堆叠在一起（合并）
+		  display: grid;
+		  grid-template-columns: repeat(auto-fill, 100px);
+		  grid-template-rows: repeat(auto-fit, 100px);
+		  grid-gap: 20px;
+		  height: 100%;
+		}
+	隐式网格
+		如果网格项的数量多于网格单元格，或者网格项位于显式网格外部，则网格容器会通过向网格添加网格线自动生成网格轨道。 
+		显式网格与这些额外的隐式轨道和网格线线一起形成所谓的隐式网格。
+		隐式轨道的宽度和高度是自动设置。它们的大小足以适合放置的网格项，但可以更改其默认行为。
+		调整隐式轨道
+			.grid {
+				display: grid;
+			  	grid-template-columns: repeat(4, 1fr);
+			  	grid-template-rows: 100px 100px;
+			 	grid-gap: 20px;
+			  	grid-auto-columns: 200px;
+			  	grid-auto-rows: 60px;
+			}
+			.grid {
+				//使用 minmax() 函数来指定范围，可以使调整隐式轨道更灵活
+				//隐式轨道现在至少有 200px 宽和 60px 高
+				grid-auto-columns: minmax(200px, auto);
+				grid-auto-rows: minmax(60px, auto);
+			}
+				没有显式行和轨道的隐式网格
+					.grid {
+					  display: grid;
+					  grid-auto-columns: minmax(60px, 200px);
+					  grid-auto-rows: 60px;
+					  grid-gap: 20px;
+					}
+					 
+					.item:first-child {
+					  grid-row: span 2;
+					}
+					 
+					.item:nth-child(2) {
+					  grid-column: 1 / span 2;
+					}
+					 
+					.item:nth-child(5) {
+					  grid-column: 3;
+					}
+

@@ -1,0 +1,212 @@
+XML
+	 可扩展标记语言
+	 数据以纯文本格式进行存储
+	 传输和存储数据
+	 把数据从 HTML 分离
+	 声明版本和编码
+	 <?xml version="1.0" encoding="utf-8"?> 
+	 树结构 
+		 XML 文档必须包含根元素。该元素是所有其他元素的父元素。
+		 XML 文档中的元素形成了一棵文档树。这棵树从根部开始，并扩展到树的最底端。
+		 所有的元素都可以有子元素
+			 <?xml version="1.0" encoding="utf-8"?> 
+			 <bookstore>
+				<book category="COOKING">
+					<title lang="en">Everyday Italian</title>
+					<author>Giada De Laurentiis</author>
+					<year>2005</year>
+					<price>30.00</price>
+				</book>
+				<book category="CHILDREN">
+					<title lang="en">Harry Potter</title>
+					<author>J K. Rowling</author>
+					<year>2005</year>
+					<price>29.99</price>
+				</book>
+				<book category="WEB">
+					<title lang="en">Learning XML</title>
+					<author>Erik T. Ray</author>
+					<year>2003</year>
+					<price>39.95</price>
+				</book>
+			 </bookstore>
+	 语法规则
+		 XML 标签对大小写敏感
+		 XML 属性值必须加引号
+		 在 XML 中，空格会被保留         ******!!!*******
+		 XML 中的注释
+			 <!-- 内容 --> 
+	 实体引用
+		 &lt; <
+		 &gt; >
+		 &amp; &
+		 &apos; '
+		 &quot; "
+	 XML 以 LF 存储换行
+	 XML 命名规则
+		 名称可以包含字母、数字以及其他的字符 
+		 名称不能以数字或者标点符号开始 
+		 名称不能以字母 xml（或者 XML、Xml 等等）开始 
+		 名称不能包含空格 
+			 XML 文档经常有一个对应的数据库，实用的经验，即使用数据库的命名规则来命名 XML 文档中的元素。
+	 XML 的优势之一，可以在不中断应用程序的情况下进行扩展
+	 XML 属性 
+		 属性通常提供不属于数据组成部分的信息
+	 xml推荐写法
+		 <note>
+		 <date>
+		 <day>10</day>
+		 <month>01</month>
+		 <year>2008</year>
+		 </date>
+		 <to>Tove</to>
+		 <from>Jani</from>
+		 <heading>Reminder</heading>
+		 <body>Don't forget me this weekend!</body>
+		</note>
+	 元数据（有关数据的数据）应当存储为属性，而数据本身应当存储为元素
+	 XML验证器
+		 XML DTD
+		 XML Schema
+	 使用CSS显示XML
+		 引入外部css文件
+		 <?xml-stylesheet type="text/css" href="cd_catalog.css"?>
+	 使用 XSLT 显示 XML
+		 XSLT 是首选的 XML 样式表语言。XSLT远比 CSS 更加完善。XSLT 是在浏览器显示 XML 文件之前，先把它转换为 HTML
+		 在使用 XSLT 来转换 XML 时，不同的浏览器可能会产生不同结果。为了减少这种问题，可以在服务器上进行 XSLT 转换
+XML JavaScript
+	 XMLHttpRequest 对象
+		 用于在后台与服务器交换数据
+		 特点
+			 在不重新加载页面的情况下更新网页
+			 在页面已加载后从服务器请求和接收数据
+			 在后台向服务器发送数据
+		 所有现代浏览器（IE7+、Firefox、Chrome、Safari 和 Opera）都有内建的 XMLHttpRequest 对象
+		 创建对象
+			 xmlhttp=new XMLHttpRequest();
+XML Parser
+	 解析器，所有现代浏览器都有内建的XML解析器。
+	 XML解析器把 XML文档转换为可通过JavaScript 操作的XML DOM对象
+		 把 XML 文档解析到 XML DOM 对象中
+			 <html>
+				<body>
+					<h1>W3Schools Internal Note</h1>
+					<div>
+					<b>To:</b> <span id="to"></span><br />
+					<b>From:</b> <span id="from"></span><br />
+					<b>Message:</b> <span id="message"></span>
+					</div>
+
+					<script>
+					if (window.XMLHttpRequest){
+						// code for IE7+, Firefox, Chrome, Opera, Safari
+						 xmlhttp=new XMLHttpRequest();
+					}else{
+						// code for IE6, IE5
+						 xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+					}
+					xmlhttp.open("GET","note.xml",false);
+					xmlhttp.send();
+					xmlDoc=xmlhttp.responseXML;
+
+					document.getElementById("to").innerHTML=xmlDoc.getElementsByTagName("to")[0].childNodes[0].nodeValue;
+					document.getElementById("from").innerHTML=xmlDoc.getElementsByTagName("from")[0].childNodes[0].nodeValue;
+					document.getElementById("message").innerHTML=xmlDoc.getElementsByTagName("body")[0].childNodes[0].nodeValue;
+					</script>
+
+				</body>
+			</html>
+		 把 XML 字符串解析到 XML DOM 对象中
+			 <html>
+				<body>
+					<h1>W3Schools Internal Note</h1>
+					<div>
+					<b>To:</b> <span id="to"></span><br />
+					<b>From:</b> <span id="from"></span><br />
+					<b>Message:</b> <span id="message"></span>
+					</div>
+
+					<script>
+					txt="<note>";
+					txt=txt+"<to>Tove</to>";
+					txt=txt+"<from>Jani</from>";
+					txt=txt+"<heading>Reminder</heading>";
+					txt=txt+"<body>Don't forget me this weekend!</body>";
+					txt=txt+"</note>";
+
+					if (window.DOMParser){
+					parser=new DOMParser();
+					xmlDoc=parser.parseFromString(txt,"text/xml");
+					}else{
+					// Internet Explorer
+					xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+					xmlDoc.async=false;
+					xmlDoc.loadXML(txt);
+					}
+
+					document.getElementById("to").innerHTML=xmlDoc.getElementsByTagName("to")[0].childNodes[0].nodeValue;
+					document.getElementById("from").innerHTML=xmlDoc.getElementsByTagName("from")[0].childNodes[0].nodeValue;
+					document.getElementById("message").innerHTML=xmlDoc.getElementsByTagName("body")[0].childNodes[0].nodeValue;
+					</script>
+				</body>
+			</html>
+	 跨域访问
+		 出于安全方面的原因，现代的浏览器不允许跨域的访问。这意味着，网页以及它试图加载的 XML 文件，都必须位于相同的服务器上
+XML DOM
+	 定义了访问和操作 XML 文档的标准方法
+	 元素，它们的文本，以及它们的属性，都被认为是节点
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

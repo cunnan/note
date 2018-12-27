@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body onload="get_list()">
+		<table border="1px"align="center">
+			<thead>
+				<tr>
+					<th>用户id</th>
+					<th>登录名称</th>
+					<th>电子邮箱</th>
+					<th>联系方式</th>
+					<th>用户姓名</th>
+					<th>用户性别</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody id="tbody"></tbody>
+		</table>
+		<div id="div"></div>
+		<script>
+			function get_list(){
+				var xhr=new XMLHttpRequest();
+				xhr.onreadystatechange=function(){
+					if(xhr.readyState==4&&xhr.status==200){
+						var result=xhr.responseText;
+						var data=JSON.parse(result);
+						tbody.innerHTML='';
+						for(var i=0;i<data.length;i++){
+							tbody.innerHTML+=`
+								<tr>
+									<td>${data[i].uid}</td>
+									<td>${data[i].uname}</td>
+									<td>${data[i].email}</td>
+									<td>${data[i].phone}</td>
+									<td>${data[i].user_name}</td>
+									<td>${data[i].gender==1?'男':data[i].gender==0?'女':'不详'}</td>
+									<td><a href="javascript:deleteUser(${data[i].uid})">删除</a><a href="mypro_update.html?uid=${data[i].uid}">修改</a></td>
+								</tr>
+							`;
+						}
+					}
+				};
+				xhr.open("get","/mypro/userlist",true);
+				xhr.send(null);
+			}
+			function deleteUser(uid){
+			var xhr=new XMLHttpRequest();
+			xhr.onreadystatechange=function(){
+				if(xhr.readyState==4&&xhr.status==200){
+					var result=xhr.responseText;
+					if(result){
+						get_list();
+					}
+				}
+			};
+			xhr.open("post","/mypro/delete",true);
+			xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+			data=`uid=${uid}`;
+			//console.log(data);
+			xhr.send(data);
+		};
+		</script>
+</body>
+</html>

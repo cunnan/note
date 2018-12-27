@@ -1,0 +1,44 @@
+JSON
+	 存储和交换文本信息,独立于语言, PHP，JSP，.NET动态编程语言都支持JSON
+	 JSON 文件的文件类型是 ".json" 
+
+	 JSON文本转换为JS对象
+		 function jsontojs(){
+			 var json=`{"employees": [
+				 { "firstName":"John" , "lastName":"Doe" },
+				 { "firstName":"Anna" , "lastName":"Smith" },
+				 { "firstName":"Peter" , "lastName":"Jones" }
+				 ]
+				 }`;
+			 console.log(eval(`json`));//eval不安全，解析速度相对慢
+			 console.log(typeof(json));
+			 var obj=JSON.parse(json);//浏览器自带json解析器，解析速度相对快
+			 console.log(typeof(obj));
+		 }
+	 JS对象转换为JSON文本
+		 function jstojson(){
+			 var js={employees: [
+				 { firstName:"John" , lastName:"Doe" },
+				 { firstName:"Anna" , lastName:"Smith" },
+				 { firstName:"Peter" , lastName:"Jones" }
+				 ]
+				 };
+			 console.log(typeof(js));
+			 var json=JSON.stringify(js);
+			 console.log(typeof(json));
+		 }
+	 json与xml对比
+		 相同之处
+			 JSON 是纯文本 
+			 JSON 具有"自我描述性"（人类可读） 
+			 JSON 具有层级结构（值中存在值） 
+			 JSON 可通过 JavaScript 进行解析 
+			 JSON 数据可使用 AJAX 进行传输 
+
+		 不同之处
+			 没有结束标签 
+			 更短 
+			 读写的速度更快 
+			 能够使用内建的 JavaScript eval() 方法进行解析 
+			 使用数组 
+			 不使用保留字 

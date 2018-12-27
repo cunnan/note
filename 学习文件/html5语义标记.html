@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+    <head>
+        <meta name="Keywords"content="">
+        <meta name="Description"content="">
+        <title>html5笔记</title>
+    </head>
+    <body bgcolor="gray"text="black">
+        <!-- article 正文 -->
+        <article>
+                <h1>Internet Explorer 9</h1>
+                <p>Windows Internet Explorer 9 (abbreviated as IE9) was released to
+                the  public on March 14, 2011 at 21:00 PDT.....</p>
+        </article> 
+        <!-- aside 和正文相关的内容 -->
+        <p>My family and I visited The Epcot center this summer.</p>
+        <aside>
+        <h4>Epcot Center</h4>
+        <p>The Epcot Center is a theme park in Disney World, Florida.</p>
+        </aside> 
+        <!-- bdo 文本内容反转  -->
+        <!-- bdi 使内容不受父元素文本方向影响 -->
+        <bdo dir="rtl">Here is <bdi>some</bdi> text</bdo>
+        <ul>
+            <li>User <bdi>hrefs</bdi>: 60 points</li>
+            <li>User <bdi>jdoe</bdi>: 80 points</li>
+            <li>User <bdi>????</bdi>: 90 points</li>
+        </ul> 
+        <!-- <figure> 元素的内容应该与主内容相关，同时元素的位置相对于主内容是独立的。如果被删除，则不应对文档流产生影响 -->
+        <!-- <figcaption>为 <figure> 元素定义标题 -->
+        <figure>
+            <img src="http://cdn.tmooc.cn/bsfile//courseImg///FE366DE898C246BF9BEB5ED290CA2F01.png" width="300px"height="200px"alt="">
+            <figcaption>Fig1. - A view of the pulpit rock in Norway.</figcaption>
+        </figure> 
+        <!-- 定义 section 或 document 的页脚 -->
+        <footer>
+            <p>Posted by: Hege Refsnes</p>
+            <p><time pubdate datetime="2012-03-01"></time></p>
+        </footer> 
+        <!-- <header> 标签定义文档或者文档的一部分区域的页眉。
+             <header> 元素应该作为介绍内容或者导航链接栏的容器。
+             在一个文档中，您可以定义多个 <header> 元素。
+             注释：<header> 标签不能被放在 <footer>、<address> 或者另一个 <header> 元素内部。
+         -->
+        <article>
+            <header>
+                <h1>Internet Explorer 9</h1>
+                <p><time pubdate datetime="2011-03-15"></time></p>
+            </header>
+            <p>Windows Internet Explorer 9 (abbreviated as IE9) was released to
+            the  public on March 14, 2011 at 21:00 PDT.....</p>
+        </article> 
+        <!-- section> 标签定义了文档的某个区域。比如章节、头部、底部或者文档的其他区域 -->
+        <section>
+            <h1>WWF</h1>
+            <p>The World Wide Fund for Nature (WWF) is....</p>
+        </section> 
+        <!-- 请在需要突出显示文本时使用 <mark> 标签。 -->
+        <p>Do not forget to buy <mark>milk</mark> today.</p>
+        <!-- <meter> 标签定义度量衡。仅用于已知最大和最小值的度量。比如：磁盘使用情况，查询结果的相关性等。注意： <meter> 不能作为一个进度条来使用 -->
+        <meter value="2" min="0" max="10" optimum="8">2 out of 10</meter><br>
+        <meter value="0.6">60%</meter> <br>
+        <meter value="0.5" high="1" low="0">0.5</meter><br>
+        <!-- 。<nav> 元素只是作为标注一个导航链接的区域。在不同设备上（手机或者PC）可以制定导航链接是否显示，以适应不同屏幕的需求-->
+        <nav>
+            ? <a href="/html/">HTML</a> |
+            ? <a href="/css/">CSS</a> |
+            ? <a href="/js/">JavaScript</a> |
+            ? <a href="/jquery/">jQuery</a>
+        </nav> 
+        <!-- 请将 <progress> 标签与 JavaScript 一起使用来显示任务的进度 -->
+        <progress value="122" max="100"></progress>  
+        <!-- 如果单词太长，或者您担心浏览器会在错误的位置换行，那么您可以使用 <wbr> 元素来添加 Word Break Opportunity（单词换行时机）。-->
+        <p>
+            To learn AJAX, you must be familiar with the XML<wbr>Http<wbr>Request Object.
+        </p> 
+        <!-- 该元素能够以机器可读的方式对日期和时间进行编码，这样，举例说，用户代理能够把生日提醒或排定的事件添加到用户日程表中，搜索引擎也能够生成更智能的搜索结果。 -->
+        <p>We open at <time>10:00</time> every morning.</p>
+        <p>I have a date on <time datetime="2008-02-14">Valentines day</time>.</p>
+        <ruby>
+        汉 <rt> ㄏㄢˋ </rt>
+        </ruby> 
+        <br>
+        <ruby>
+        汉 <rt> ㄏㄢˋ </rt>
+        </ruby> 
+       <br>
+        <ruby>
+        汉 <rt><rp>(</rp>ㄏㄢˋ<rp>)</rp></rt>
+        </ruby> 
+    </body>
+</html>

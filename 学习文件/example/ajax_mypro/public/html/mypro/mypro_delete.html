@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input type="text"id="uid">
+	<button onclick="deleteUser()">删除</button>
+	<div id="div"></div>
+	<script>
+		function deleteUser(){
+			var xhr=new XMLHttpRequest();
+			xhr.onreadystatechange=function(){
+				if(xhr.readyState==4&&xhr.status==200){
+					var result=xhr.responseText;
+					if(result){
+						get_list();
+					}
+
+				}
+			};
+			xhr.open("post","/mypro/delete",true);
+			xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+			data=`uid=${uid.value}`;
+			//console.log(data);
+			xhr.send(data);
+		};
+	</script>
+</body>
+</html>

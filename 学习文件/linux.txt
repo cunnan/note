@@ -1,0 +1,128 @@
+Linux 教程
+	 Linux 简介
+		 Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。
+	 Linux应用领域
+		 今天各种场合都有使用各种Linux发行版，从嵌入式设备到超级计算机，并且在服务器领域确定了地位，通常服务器使用LAMP（Linux + Apache + MySQL + PHP）或LNMP（Linux + Nginx+ MySQL + PHP）组合。
+	 Linux 安装
+		 centos 下载地址：https://www.centos.org/download/
+		 CentOS-7.0-x86_64-DVD-1503-01.iso : 标准安装版，一般下载这个就可以了（推荐）
+	 Linux 关机
+		 sync 将数据由内存同步到硬盘中。
+		 hutdown –h 20:25 系统会在今天20:25关机
+		 Shutdown –h +10 十分钟后关机
+		 Shutdown –h now 立马关机
+		 Shutdown –r +10 系统十分钟后重启
+		 reboot 重启
+	 Linux 系统目录结构
+		 /bin：存放着最经常使用的命令。
+		 /boot：启动Linux时使用的一些核心文件，包括一些连接文件以及镜像文件。
+		 /dev ：存放的是Linux的外部设备，在Linux中访问设备的方式和访问文件的方式是相同的
+		 /etc：存放所有的系统管理所需要的配置文件和子目录。
+		 /home：用户的主目录，在Linux中，每个用户都有一个自己的目录，一般该目录名是以用户的账号命名的。
+		 /lib：存放着系统最基本的动态连接共享库，其作用类似于Windows里的DLL文件。几乎所有的应用程序都需要用到这些共享库。
+		 /media：linux系统会自动识别一些设备，例如U盘、光驱等等，当识别后，linux会把识别的设备挂载到这个目录下。
+		 /mnt：系统提供该目录是为了让用户临时挂载别的文件系统的，我们可以将光驱挂载在/mnt/上，然后进入该目录就可以查看光驱里的内容了。
+		 /opt：这是给主机额外安装软件所摆放的目录。比如你安装一个ORACLE数据库则就可以放到这个目录下。默认是空的。
+		 /proc：这个目录是一个虚拟的目录，它是系统内存的映射，我们可以通过直接访问这个目录来获取系统信息。这个目录的内容不在硬盘上而是在内存里
+		 /root：该目录为系统管理员，也称作超级权限者的用户主目录。
+		 /sbin：s就是Super User的意思，这里存放的是系统管理员使用的系统管理程序。
+		 /srv：该目录存放一些服务启动之后需要提取的数据。
+		 /tmp：存放一些临时文件的。
+		 /usr：用户的很多应用程序和文件都放在这个目录下，类似于windows下的program files目录。
+			 /usr/bin：系统用户使用的应用程序。
+			 /usr/sbin：超级用户使用的比较高级的管理程序和系统守护程序。
+			 /usr/src：内核源代码默认的放置目录。
+		 /var：这个目录中存放着在不断扩充着的东西，我们习惯将那些经常被修改的目录放在这个目录下。包括各种日志文件。
+		 /run：是一个临时文件系统，存储系统启动以来的信息。当系统重启时，这个目录下的文件应该被删掉或清除。
+	 Linux 远程登录
+		 Linux系统中是通过ssh服务实现的远程登录功能，默认ssh服务端口号为 22。
+		 Window系统上 Linux 远程登录客户端有SecureCRT, Putty, SSH Secure Shell等
+	 Linux 文件基本属性
+		 为了保护系统的安全性，Linux系统对不同的用户访问同一文件（包括目录文件）的权限做了不同的规定。
+		 dr-xr-xr-x   4 root root 4096 Apr 19  2012 boot
+		 第0位确定文件类型，第1-3位确定属主（该文件的所有者）拥有该文件的权限。第4-6位确定属组（所有者的同组用户）拥有该文件的权限，第7-9位确定其他用户拥有该文件的权限。
+		 Linux文件属主和属组
+			 Linux系统按文件所有者、文件所有者同组用户和其他用户来规定了不同的文件访问权限。对于 root 用户来说，一般情况下，文件的权限对其不起作用
+			 chgrp [-R] 属组名 文件名
+			 chown [–R] 属主名 文件名
+			 chown [-R] 属主名：属组名 文件名
+			 chmod [-R] xyz 文件或目录
+			 -R：递归更改文件属组
+	 Linux 文件与目录管理
+		 Linux 文件内容查看
+			 cat  由第一行开始显示文件内容
+			 tac  从最后一行开始显示，可以看出 tac 是 cat 的倒著写！
+			 nl   显示的时候，顺道输出行号！
+			 more 一页一页的显示文件内容
+			 less 与 more 类似，但是比 more 更好的是，他可以往前翻页！
+			 head 只看头几行
+			 tail 只看尾巴几行
+	 Linux 用户和用户组管理
+		 用户管理
+			 创建了一个用户sam，其中-d和-m选项用来为登录名sam产生一个主目录/usr/sam
+			 # useradd –d /usr/sam -m sam
+			 删除用户sam在系统文件中（主要是/etc/passwd, /etc/shadow, /etc/group等）的记录，同时删除用户的主目录。
+			 # userdel -r sam
+			 将用户sam的主目录改为/home/z
+			 # usermod -d /home/z sam
+			 将用户sam的口令删除，这样用户sam下一次登录时，系统就不再询问口令
+			 # passwd -d sam
+			 锁定某一用户，使其不能登录
+			 # passwd -l sam
+			 解锁用户
+			 # passwd -u sam
+		用户组管理
+			 向系统中增加了一个新组group2，同时指定新组的组标识号是101。
+			 # groupadd -g 101 group2
+			 从系统中删除组group1
+			 # groupdel group1
+			 将组group2的标识号改为10000，组名修改为group3
+			 # groupmod –g 10000 -n group3 group2
+			 将当前用户切换到root用户组，前提条件是root用户组确实是该用户的主组或附加组
+			 $ newgrp root
+		 与用户账号有关的系统文件
+			 /etc/passwd
+				 sam:x:200:50:Sam san:/usr/sam:/bin/sh
+				 用户名:口令:用户标识号:组标识号:注释性描述:主目录:登录Shell
+			 /etc/shadow
+			 与/etc/passwd中的一一对应，它由pwconv命令根据/etc/passwd中的数据自动产生，只有超级用户才拥有该文件读权限
+				 登录名:加密口令:最后一次修改时间:最小时间间隔:最大时间间隔:警告时间:不活动时间:失效时间:标志
+			 /etc/group
+				 组名:口令:组标识号:组内用户列表
+		 添加批量用户
+			 先编辑一个文本用户文件
+				 每一列按照/etc/passwd密码文件的格式书写，要注意每个用户的用户名、UID、宿主目录都不可以相同，其中密码栏可以留做空白或输入x号
+				 user001::600:100:user:/home/user001:/bin/bash
+				 user002::601:100:user:/home/user002:/bin/bash
+			 以root身份执行命令 /usr/sbin/newusers，从刚创建的用户文件user.txt中导入数据，创建用户
+				 # newusers < user.txt
+			 执行命令/usr/sbin/pwunconv
+				 # pwunconv
+			 编辑每个用户的密码对照文件。
+				 范例文件 passwd.txt 内容如下：
+				 user001:密码
+				 user002:密码
+				 user003:密码
+				 user004:密码
+				 user005:密码
+				 user006:密码
+			 以root身份执行命令 /usr/sbin/chpasswd
+				 # chpasswd < passwd.txt
+			 执行命令 /usr/sbin/pwconv 将密码编码为 shadow password，并将结果写入 /etc/shadow
+				 # pwconv
+	 Linux 磁盘管理
+		 将 /etc 底下的可用的磁盘容量以易读的容量格式显示
+		 [root@www ~]# df -h /etc
+	 linux yum命令
+		 yum（ Yellow dog Updater, Modified）是一个在Fedora和RedHat以及SUSE中的Shell前端软件包管理器。基於RPM包管理，能够从指定的服务器自动下载RPM包并且安装
+		 国内 yum 源
+			 网易（163）yum源是国内最好的yum源之一 ，无论是速度还是软件版本，都非常的不错。将yum源设置为163 yum，可以提升软件包安装和更新的速度，同时避免一些常见软件版本无法找到
+			 安装步骤
+				 备份/etc/yum.repos.d/CentOS-Base.repo
+				 mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
+				 下载对应版本 repo 文件, 放入 /etc/yum.repos.d/ 
+				 wget http://mirrors.163.com/.help/CentOS6-Base-163.repo
+				 mv CentOS6-Base-163.repo CentOS-Base.repo
+				 运行以下命令生成缓存
+				 yum clean all
+				 yum makecache

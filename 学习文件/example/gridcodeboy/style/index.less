@@ -1,0 +1,26 @@
+body{
+	box-sizing: border-box;
+	background: red;
+	display: grid;
+	grid-template-columns: repeat(3,1fr);
+	grid-template-rows: repeat(3,1fr);
+	grid-template-areas: 
+		"none div1  div1"
+		"div2 div2 ."
+		"div4 div3 div3";
+}
+div{
+	border:1px solid blue;
+}
+.div1{
+	grid-area:div1;
+}
+.div2{
+	grid-area:div2;
+}
+.div3{
+	grid-area:div3;
+}
+.div4{
+	grid-area:div4;
+}

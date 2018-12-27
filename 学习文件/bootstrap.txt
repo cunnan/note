@@ -1,0 +1,357 @@
+BootStrap
+	官网 www.bootcss.com
+响应式布局（css3知识）
+	responsive web page 响应式/自适应的网页
+	可以根据浏览器的设备不同（pc,pad,phone)自动调用对应的布局，图片、文字效果，从而不会降低用户体验
+	响应式网页必须做到的前提
+		布局：
+			不能固定宽度，必须是流式布局（尽量少用定位，可以使用浮动）
+			文字和图片，大小随着容器大小而改变，em，rem
+			媒体查询技术
+	响应式网页:清华大学官网，京东(移动端)m.jd.com
+	响应式网页存在的问题
+		页面的复杂度极大的增加，只适用于内容不太多的页面（企业官网，门户网站)
+	响应式媒体查询技术属于h5/cs的技术，bootstrap把媒体查询这件事，封装了，不需要我们自己写了
+	如何测试响应式网页
+		使用真实设备测试，效率极低，
+			真实可靠
+			测试任务量巨大
+		使用第三方模拟测试软件（phonegap微信开发时的测试软件）
+			无需添置太多真实设备，测试方便
+			测试效果有限，有待进一步验证，nfc
+		使用浏览器自带的模拟器测试
+			简单方便
+			测试效果有限，需要进一步验证
+	如何编写响应式布局
+		meta 网页元数据标签
+		在元数据标签中定义viewport--视口
+		name="viewport"
+		content中设置能够允许网页进行操作
+		width=device-width 表示视口宽度就是设备宽度
+		initial-scale=1.0 表示视口宽度是否可以缩放 1.0表示不能缩放
+		maximum-scale=1.0 允许缩放的最大倍率
+		user-scalable=0 是否允许用户手动缩放 yes,no,1,0
+		一般的设置
+			<meta name="viewport" content="width=device-width,initial-scale=1">
+		所有内容、文字、图片，使用相对尺寸，不能使用px这种绝对值
+		流式布局+弹性布局，再搭配媒体查询技术来完成响应式布局
+		使用css3 Media Query技术做响应式网页
+			Media:媒体，指浏览网页的设备，例如screen(pc，pad,phone),tv,print
+			Media Query媒体查询，可以自动根据当前浏览器设备的不同（尺寸，解析度，方向不同），有选择地执行一部分css而忽略其他部分的css
+		尺寸
+			pc 宽度>=992px 使用pc
+			pad 宽度>=768px and 宽度<=991px
+			phone 宽度<=767px
+		媒体查询方案1
+			<link rel="stylesheet" href="../style/pc.css"media="screen and (min-width:992px)">
+			<link rel="stylesheet" href="../style/pad.css"media="screen and (min-width:768px) and (max-width:991px)">
+			<link rel="stylesheet" href="../style/phone.css"media="screen and (max-width:767px)">
+			此方案使用较少，所有的css文件都会被加载，每个css文件中，存在很多重复代码
+		媒体查询方案2
+			根据媒体查询的结果，执行同一个css文件下的不同代码块
+			@media screen and (min-width:768px) and (max-width:991px){
+				选择器{
+					样式
+				}
+			}
+bootstrap开始
+	所有使用boot的代码都必须放在container类的包裹中
+	全局样式
+		按钮相关的class
+			.btn 基本按钮
+			颜色按钮
+				.btn-danger 危险
+				.btn-success 成功
+				.btn-warning 警告
+				.btn-info 信息
+				.btn-primary 主要
+				.btn-secondary 次要
+				.btn-dark 深色
+				.btn-light 浅色
+				.btn-link 链接
+			不同的边框按钮
+				btn-outline-颜色
+			按钮大小
+				.btn-lg 大按钮
+				.btn-sm 小按钮
+				.btn-block 块级按钮
+		图片相关的class
+			.rounded 倒角
+			.rounded-circle 圆
+			.img-thumbnail 缩略图
+			.img-fluid 响应式布局，图片会缩放，但不会超过原始大小
+		文字相关
+			字体大小 h1~h6 .h1~.h6
+			字体颜色
+				.text-颜色
+				.text-*-left/right/center/justify
+				*代表lg/sm 在大屏幕下对齐，在小屏幕下对齐
+			字体大小写
+				.text-uppercase/lowercase/capitalize 大写，小写，首字母大写
+			粗体
+				.font-weight-bold
+			斜体
+				.font-italic
+		列表相关的class
+			ul
+				.list-unstyled 去除标识符
+				.list-group 创建列表组
+			li
+				.list-group-item 创建列表项
+				.active 激活状态
+				.disabled 禁用状态
+			li的颜色
+				.list-group-item-颜色
+		table相关的class
+			.table 基本类
+			.table-bordered 带边框的表格
+			.table-striped 隔行变色
+			.table-hover 鼠标悬停效果
+			.table-颜色
+			响应式表格
+				在table元素的父级元素上，添加类.table-response
+		辅助类
+			边框
+				.border 基础类
+				.border-top/right/bottom/left
+				.border-0/border-top/right/bottom/left-0
+				.border-颜色
+				.rounded/rounded-0 设置/取消圆角
+				.rounded-top/right/bottom/left 
+			浮动
+				.float-*-left/right *:xl/lg/mg/sm
+				.clearfix
+			显示
+				.visible/.invisible 显示/隐藏
+			背景
+				.bg-颜色
+			居中对齐
+				.m-auto
+				margin
+					.m-*(0/1/2/3/4/5)(0/0.25/0.5/1/1.5/3rem)
+					mt/mr/mb/ml-*
+				padding
+					.p-*(0/1/2/3/4/5)(0/0.25/0.5/1/1.5/3rem)
+					pt/pr/pb/pl-*
+			宽度/高度
+				w-*(25/50/75/100) 百分比
+				h-*(25/50/75/100) 百分比
+栅格布局
+	web页面的方法
+				 table布局							div+css布局						bootstrap中的栅格布局
+		优点 简单，容易控制				语义正确，渲染效率高		简单，容易控制，语义正确
+		缺点 语义错误，渲染效率低 控制比较麻烦，媒体查询  渲染效率高，支持响应式
+															写起来更麻烦						页面如果太复杂，不适合使用
+	总结
+		最外层需要使用容器
+			.container 定宽容器，最大宽度是写死的
+			.container-fluid 变宽容器，宽度是父级元素的100%
+		容器中声明.row
+			弹性布局，一行分为12个单元格
+		行中声明列.col-n
+			每个列都需要指定宽度占比n/12
+	栅格
+		col-xl-1/2/3/4... xl:Extra Large w>=1200px
+		col-lg-1/2/3/4... lg: Large w>=992px
+		col-md-1/2/3/4... md:dedium w>=768px
+		col-sm-1/2/3/4... sm:small w>=576px
+		ex:Extra small    w<575px
+		col 只写col,每一列平均分配
+
+		不同屏幕下，列的适应性问题
+		col-xl-* 只对超大屏生效
+		col-lg-* 对xl/lg生效
+		col-md-* 对xl/lg/md生效
+		col-sm-* 对xl/lg/md/sm生效
+	列偏移
+		可以通过列偏移类.offset实现指定列的偏移
+		.offset-[xl/lg/md/sm-]* *:0~11
+弹性布局
+	d-flex或者d-inline-flex 创建一个弹性容器
+	flex-*-row 不同屏幕下主轴方向x
+	flex-*-column 不同屏幕下主轴方向y
+	flex-row-reverse
+	flex-column-reverse
+	justify-content-end/center/between/around
+	响应式flex类
+	d-*-row
+	flex-*-row
+	flex-*-row-reverse
+	flex-*-column
+	flex-*-column-reverse
+	justify-content-*-start/end/enter/between/around
+表单
+	在form表中写的类
+		方向的排列
+			form-group+form-control 堆叠，垂直方向排列，全屏的宽度
+			form-inline 内联表单 水平排列
+			form-conctrol
+			form-check 写在单选按钮/多选按钮的父级元素容器中，有相对定位
+			from-check-inline 自带弹性布局，交叉轴垂直居中
+			form-check-input 自带绝对定位，需要与上面form-check配合使用
+			check-inline 配合使用
+			form-check-label 底边距为0
+			form-text 上外边距为0.25rem
+			行 div.row div.form-inline
+			列 div.col div.col
+					栅格		表单
+组件
+	boot 把一些功能性的模块，进行了封装，我们只需要按照boot要求的层次结构，以及类名套用，就可以完成
+	下拉菜单
+		外部大包裹
+			.dropdown
+		菜单按钮
+			.dropdown-toggle 作用是显示向下的小箭头
+			事件的激活，自定义属性 data-toggle="dropdown"
+		菜单栏
+			.dropdown-menu
+		菜单栏中的菜单项
+			.dropdown-item
+		菜单项有几个可选的类名
+			.dropdown-header
+			.active
+			.disabled
+		在每个item之间添加分割线
+			.dropdown-divider
+	按钮组
+		外包裹添加class="btn-group"
+		把内部的显示成一组
+		使用btn-group-lg/sm设置按钮组大小
+		使用btn-group-vertical设置垂直按钮组
+	信息提示框
+		外包裹必须有class="alert"
+		可以修改颜色，alert-颜色
+		如果内部的X想使用类close,父级要添加alert-dismissble
+		内部有文本提示
+		内部有关闭提示框的X
+			data-dismiss="alert" class="close"
+	导航
+		水平导航
+			 1.ul必须有类名 nav nav-justified
+			   nav-justified 本身没有任何样式，为了给自严肃item引路
+			 2.li class="nav-item"
+			 3.a class="nav-link"
+			 4.其他样式
+				ul中，如果有nav-justified,意味着导航项等宽显示
+				 如果想使用justify-contend-* 做主轴的对齐，需要把nav-justified删掉
+				 fiex-row/column/reverse 都可以生效
+		选项卡导航
+			外包裹 ul class="nav nav-tabs"
+			ul内部需要有两套
+				选项卡
+					li class="nav-items"
+					a class="nav-link"
+				对应内容
+					div class="tab-content" tab-content 对自己没有任何修饰，为了给内部子元素.tab-pane引路
+						tab-content>elem class="tab-pane"组合之后，elem就隐藏了
+						如果想显示tab-content>.active
+				点击选项卡的动作
+					a.nav-link有事件的激活，使用自定义属性data-toggle="tab"实现切换
+				把选项卡的href和内容id进行绑定
+					内容的id<div id="apple" class="tab-pane active">
+					与选项卡a标签的href绑定
+					<a href="#apple" class="nav-link active" data-toggle="tab">
+					对应的内容也需要active
+					<div id="apple" class="tab-pane active">
+		胶囊导航
+			.nav-pills替代选项卡导航的nav-tabs
+			data-toggle="pill"
+		导航栏
+			在ul外层包裹一个div，就把导航变为了导航栏
+			外层包裹，div.navbar 弹性+相对定位，后面紧跟.nav-expand-lg/md/sm（配合的类ul.navbar-nav）,此处的响应
+			式是设置导航在某一个屏幕下横向显示，其他屏幕纵向显示
+			导航可以使用ul,添加.navbar-nav(默认弹性，主轴为column),配合之前的nav-bar-expand-lg/d/sm,可以是主轴变为row
+			li.nav-item>a.nav-link
+			注意：在外包裹中，可以使bg-color，设置导航栏颜色
+			整个导航栏横向显示还是纵向显示，是由.navbar-expand-lg/md/sm控制的
+		折叠
+			控制内容的隐藏与显示
+			在button中添加data-toggle="collapse"和折叠目标data-target="#内容id",#内容id对应折叠内容的id
+			在内容中添加id和class="collapse"实现折叠
+			如果使用a标签，直接在href中填写对应折叠内容的id
+			在内容中添加id和class="collapse"实现折叠
+		折叠导航栏
+			外部包裹div.navbar.navbar-expand-*.bg-dark.navbar-dark
+			.bg-dark.navbar-dark保持一致，都是dark/light
+			.navbar-dark本身没有样式，为了子元素选择器引路
+			影响的子元素有.navbar-brand,.nav-link,.navbar-toggler,.navbar-toggler-icon
+			外包裹内部
+				不折叠的选项a.navbar-brand
+				折叠按钮button.navbar-toggler
+					.navbar-expand-*.navbar-toggler(设置什么时候显示隐藏）
+					.btn需要些自定义属性data-toggle="collapse"data-target="#折叠内容id"
+			内容div.collapse.navbar-collapse#折叠内容id
+				.navbar-collapse设置折叠导航打开的位置
+				导航内容
+					ul.navbar-nav>li.nav-item>a.nav-link
+		卡片
+			通过.card创建一个卡片
+				.card-header 卡片的头部
+				.card-body 卡片的内容
+				.card-footer 卡片的底部
+				用于文字或者图片的展示
+
+				
+		手风琴效果(卡片+折叠)
+			最外层div#parent 这里的id是为了做data-parent="#parent"
+			目的是，一个折叠打开，其他在这个包裹的折叠都自己关闭
+				div.card>div.card-header>a.card-link
+			a标签中写折叠事件和折叠对象
+				data-toggle="collapse"href="#p1"
+			折叠内容
+				div.collapse#p1>div.card-body>p
+			注意：card-body和collapse不能在同一个div上，会冲突卡顿
+			如果希望一个卡片打开，其他卡片折叠，需要在折叠元素上添加事件data-parent="#parent"外层大包裹的id
+		媒体对象
+			容器添加.media(flex)
+			项目有img,div.media-body
+			由于img和里面的div都是弹性项目,可以使用弹性布局的一切类，比如img.align-self-center
+		轮播
+			.carousel旋转木马
+			最外层大包裹负责让图片轮播起来
+			div.carousel data-ride="carousel"
+			图片的轮播
+				添加图片的包裹.carousel-inner
+				每一张图片的包裹.carousel-item
+				显示的图片 .active
+					可选择的样式类名
+						在图片上添加文字和标题 .carousel-caption
+			导航指示符
+				ul.carousel-indicators
+					li data-slide-to="0" 滑动至哪一张图片，从0开始
+						data-target="最外层包裹.carousel的id"
+				重写boot提供的样式
+			左右箭头
+				a.carousel-control-prev>span.carousel-control-prev-icon
+				a.carousel-control-next>span.carousel-control-next-icon
+				a标签中有事件data-slide="prev/next",事件的目标是href="#demo"
+		模态框
+			modal模态框是覆盖在父窗体上的子窗体，模态框可以在不离开父窗体的情况下，与用户互动，提交一些交互信息
+			 1.外包裹 div.modal
+			 2.内部一个div.modal.dialog
+			 3.div.modal.dialog 内部一个div.modal-content
+			 4.div.modal-content 中有 modeal-header modal-body modal-footer
+		其他组件
+			徽章
+				就是添加颜色样式和圆角
+				.badge .badge-pill .badge-颜色
+			巨幕
+				巨大的边框
+				div.jumbotron
+			分页
+				外包裹ul.pagination-lg/sm设置分页条的大小
+				内部li.page-item>a.page-link
+				使用active和disabled修饰li
+			面包屑导航
+				面包屑导航用于有层次关系的导航
+				ul.breadcrumb>li.bradbrumb-item>a
+				改变item的连接符号.breadcrumb-item + .breadcrumb-item::before {content: ">>";}
+			进度条
+				进度条槽 div.progress
+				进度条在曹里写 div.progress-bar
+				w-*是进度，bg-颜色是进度条颜色
+				progress-bar-striped 设置条纹进度条
+				progress-bar-animated 设置进度条动画
+				可以在同一个槽上，添加多个进度
+	boot中重点
+		媒体查询+栅格布局+scss(动态生成css脚本)

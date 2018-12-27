@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div>用户名称：<input type="text" id="uname"></div>
+	<div>用户密码：<input type="password" id="upwd"></div>
+	<button onclick="login()">登录</button>
+	<div id="div"></div>
+	<script>
+		function login(){
+			var xhr=new XMLHttpRequest();
+			xhr.onreadystatechange=function(){
+				if(xhr.readyState==4&&xhr.status==200){
+					var result=xhr.responseText;
+					div.innerHTML=result;
+				}
+			};
+			xhr.open("post","/mypro/login",true);
+			var data=`uname=${uname.value}&upwd=${upwd.value}`;
+			//console.log(data);
+			xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+			xhr.send(data);
+		}
+	</script>
+</body>
+</html>

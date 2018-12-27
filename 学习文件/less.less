@@ -1,0 +1,523 @@
+less
+	  CSS的扩展，向后兼容CSS，添加的额外功能使用现有的CSS语法
+概观
+	 less定义规则集时只能用class选择器和id选择器，标记选择器在调用时才可用
+	 变量
+		 变量定义
+			 @color:red;
+		 变量调用
+			 .div{
+				 color:@color;
+			 }
+		 变量只能定义一次
+	 Mixins
+		 将一组属性添加到另一组属性中
+			 .div1{
+				 color:red;
+			 }
+			 .div2{
+				 .div1;
+			 }
+	 嵌套
+		 .div1{
+			 color:red;
+			 .div2{
+				 color:green;
+			 }
+			 .div3{
+				 color:yellow;
+			 }
+			 .div4:hover{
+				 color:blue;
+			 }
+			 .div5{
+				 color:black;
+			 }
+		 }
+	 运算符
+		 加减乘除+/-/*//
+			 @color:#333333+#111111-#222;
+			 @width1:5%;
+			 @width2:@width1*5;
+	 字符~
+		 原样输出内容
+			 .div{
+				 content:~'83982382@@@3';
+				 color:~"fsalkjl3";
+			 }
+	 函数
+		 @color:red;
+		 .div{
+			 color:lighten(@color,20%);
+		 }
+	 命名空间
+		 #div{
+			 .div1{
+				 color:red;
+			 }
+			 .div2{
+				 color:blue;
+			 }
+			 .div3{
+				...
+			 }
+		 }
+		 .div5{
+			 width:200px;
+			 #div > .div2;
+		 }
+	 作用域
+		 就近原则
+			 写法一：
+			 @color:red;
+			 .div1{
+				 @color:yellow;
+				 .div2{
+					 color:@color;//yellow
+				 }
+			 }
+			 写法二：
+			 @color:red;
+			 .div1{
+				 .div2{
+					 color:@color;//yellow
+				 }
+				 @color:yellow;
+			 }
+		 因为less的变量是延迟加载，两种写法效果相同
+	 注释
+		 //单行注释
+		 /**/多行注释
+	 导入
+		 导入文件中的变量可以使用
+		 @import "路径/文件名[.less]";
+
+变量
+	 应用位置
+		 变量名称
+			 @color:red;
+			 @var:color;
+			 .div{
+				 color:@@var;
+			 }
+		 属性值
+			 @var:red;
+			 .div{
+				 color:@var;
+			 }
+		 属性名称
+			 @var:color;
+			 .div{
+				 @{var}:red;
+				 background-@{var}:blue;
+			 }
+		 选择器名称
+			 @var:div;
+			 @{div}{
+				 color:red;
+			 }
+		 路径
+			 @var:"../less";
+			 @import "@var/less.less";
+	 定义变量两次时，使用变量的最后一个定义，从当前范围向上搜索
+		 .div1{
+			.div2{
+				 @var:red;
+				 color:@var;//green
+				 @var:green;
+			}
+		 }
+	 默认变量
+		 文件a.less
+			 @color:red;//默认红色
+			 .div{
+				 color:@color;
+			 }
+		 文件b.less
+			 @import "a.less";
+			 @color:green;//设置变量后因变量延迟加载，故覆盖为绿色
+扩展
+	 扩展是less中的伪类，将已有的选择器中的属性扩展到被扩展的选择器中
+		 .div1{
+			 color:green;
+			 &:extend(.div2);
+		 }
+		 .div2{
+			 color:red;
+		 }
+	 语法
+		 扩展位置
+			 在选择器末尾
+				.div1:extend(.div2):extend(.div3 all){}	 all关键字表示被扩展对象.div1要纵向完全扩展.div3
+			 在选择器的规则集中
+				.div1{
+					 &:extend(.div2,.div3);
+				}
+	 扩展嵌套选择器
+		 一
+			 .div2{
+				 .div3{
+					 color:red;
+				 }
+			 }
+			 .div1:extend(.div2 .div3){}
+		 二
+			 .div1{
+				 .div2 & {
+					 color:red;
+				 }
+			 }
+			 .div3:extend(.div2 .div1){}
+		 扩展的是编译后的css,而不是未编译的less
+	 与Extend完全匹配
+		 扩展默认是完全匹配，以下三种写法是不完全匹配，所以不会扩展
+			 一
+			 *.div1{
+				 color:red;
+			 }
+			 .div2:extend(.div1){};
+			 二
+			 .div1.div2,
+			 .div2.div1,
+			 .div1 > .div2{
+				 color:red;
+			 }
+			 三
+			 .div3:extend(.div1){}
+			 link:hover:visited {
+				 color: blue;
+			 }
+			 .div:extend(link:visited:hover) {}
+	 扩展:nth-child(n+3)
+		 :nth-child(n+3)和:nth-child(1n+3)等效，但扩展不会匹配后者
+			 :nth-child(1n+3) {
+				 color: blue;
+			 }
+			 .child:extend(:nth-child(n+3)) {}
+	 all参数
+		 扩展所有(可用于搜索和替换)
+			 .div1.div2.div3,.div3.div4{
+				color:red;
+			 }
+			 .div5:extend(.div3 all){}
+			 .div1{
+				 &:hover{
+					 color:red;
+				 }
+			 }
+			 .div2:extend(.div1 all){}
+	 扩展值或者扩展对象的选择器为变量的时候，被扩展对象不匹配
+		 一
+		 .div1{
+			 color:red;
+		 }
+		 @div:.div1;
+		 .div2:extend(@(div)){}
+		 二
+		 @div:.div1;
+		 @{div}{
+			 color:red;
+		 }
+		 .div2:extend(.div1){}
+	 被扩展对象为变量时，可以进行扩展
+		 .div1{
+			 color:red;
+		 }
+		 @div2:.div2;
+		 @{div2}:extend(.div1){}
+	 @media的扩展
+		 在媒体里面声明的扩展只匹配该扩展在该媒体中所在层级的的选择器
+			 @media print{
+				 .div1:extend(.div2){}
+				 .div2{
+					 color:red;
+				 }
+				 @media (min-width: 1023px){
+					.div2{
+						 color:blue;
+					 }
+				 }
+			 }
+			 @media screen{
+				 .div2{
+					 color:yellow;
+				 }
+			 }
+			 .div2{
+				 color:black;
+			 }
+		 在媒体外面声明的扩展会匹配媒体中的所有扩展对象
+			 @media print{	 
+				 .div2{
+					 color:red;
+				 }
+				 @media (min-width: 1023px){
+					 .div2{
+						  color:red;
+					 }
+				 }
+			 }
+			 .div1:extend(.div2){}
+	 扩展和mixins的比较
+		 mixinx适用于简单的选择器
+		 扩展适用于复杂的样式应用
+混入
+	 混合使用类选择器和id选择器
+		 .div,#div{
+			 color:red;
+		 }
+		 .div1{
+			 .div();
+			 #div();
+		 }
+		 .div2{
+			 .div;
+			 #div;
+		 }
+	 不输出Mixin
+		 创建一个mixin，但不想输出mixin，可以在它后面添加括号
+			 .div1{
+				 color:red;
+			 }
+			 .div2(){
+				 color:green;
+			 }
+			 .div3{
+				 .div1;
+				 .div2;
+			 }
+	 命名空间
+		 可以将mixins放在一个id选择器下，可以确保不会与另一个库冲突
+		 #div{
+			 .div1(){
+				 color:red;
+			 }
+			 .div2(){
+				 color:green;
+			 }
+		 }
+	 受保护的命名空间
+		 仅在保护条件返回true时才使用由其定义的mixins
+		 #namespace1 when(@pwd=123456){
+			 .div1(){...}
+			 .div2(){...}
+		 }
+		 #namespace2{
+			 .div1() when(@pwd=123456){...}
+			 .div2() when(@pwd=123456){...}
+		 }
+		 @pwd:123456;
+	 !important关键字
+		 将其继承的所有属性标记为!important
+		 .div (@bg: #f5f5f5, @color: #900) {
+			 background: @bg;
+			 color: @color;
+		 }
+		 .important {
+			 .div() !important;
+		 }
+参数混合
+	 将参数传递给mixins
+		 .div1(@color){
+			 color:@color;
+		 }
+		 .div2(@color:#ffaaee){
+			 color:@color;
+		 }
+		 .div3(){
+			 color:red;
+		 }
+		 调用
+		 .div4{
+			 .div1(red);
+			 .div2;
+			 .div3;
+		 }
+	 具有多个参数的混合
+		 参数可以是分号或逗号分隔。建议使用分号
+		 定义具有相同名称和参数数量的多个mixin是合法的。Less将使用所有可应用的属性
+		 .div1(@color){}
+		 .div1(@color;@width:50px){}
+		 .div1(@color;@width;@height:40px){}
+		 .div2{
+			 .div1(red);//继承第一个和第二个，不继承第三个，因为参数值不全
+		 }
+	 @arguments
+		 包含调用mixin时传递的所有参数
+		 .div1(@width;@solid:solid;@color){
+			 border:@arguments; 
+		 }
+	 高级参数...
+		 .div1(...){//调用.div1(...)时，括号里可以有0-N个参数
+			 color:red;
+			 width:5px;
+		 }
+		 .div1() {//调用.div1()时，括号里可以有0个参数          
+			 color:red;
+			 width:5px;
+		 }
+		 .div1(@a:1) {//调用.div1()时，括号里可以有0或1个参数          
+			 color:red;
+			 width:5px;
+		 }
+		 .div1(@a;...) {//调用.div1()时，括号里可以有1-n个参数          
+			 color:red;
+			 width:5px;
+		 }
+	 @rest变量
+		 .div1(@color;@re...){//调用.div1(@color;@re...)时，re包含除color参数值之外的其他参数值
+			color:@color;
+			border:@re;
+		 }
+		 调用
+		 .div2{
+			 .div1(red;1px;solid;green);
+		 }
+Mixins作为函数
+	 .div1(){
+		 @color:red;
+		 @width:200px;
+	 }
+	 .div2{
+		 .div1;
+		 color:@color;
+		 width:@width;
+
+	 }
+	 当做函数调用
+	 .avg(@x,@y){
+		 @average: ((@x + @y) / 2);
+	 }
+	 .div{
+		 .avg(16px,18px);
+		 padding:@average;
+	 }
+	 类似对象调用
+	 .div1(@var){
+		 .div2(){
+			 color:@var;
+		 }
+	 }
+	 .div3{
+		 .div1(red);//调类
+		 .div2;//调类中函数
+	 }
+将规则集传递给Mixins
+	 媒体查询应用
+	 .div(@rules) {
+		 @media screen and (min-width: 1200) { @rules(); }
+		 html.lt-ie9 &                       { @rules(); }//&子级
+	}
+	 .div1{
+		 @rules:{
+			 color:red;
+			 width:200px;
+		 };
+		 .div(@rules);
+	 }
+
+@import (reference)"init";
+@import (inline)"init.css";
+@import "_init.css";不编译以下划线开头的.less文件
+
+合并
+空格合并
+.w(){
+	border+_: 2px;
+}
+.s(){
+	border+_: solid;
+}
+.c(){
+	border+_:red;
+}
+.d3{
+	.w;
+	.s;
+	.c;
+}
+逗号合并
+.w(){
+	border+: 2px;
+}
+.s(){
+	border+: solid;
+}
+.c(){
+	border+:red;
+}
+.d3{
+	.w;
+	.s;
+	.c;
+}
+&父选择器的用法
+.demo{
+	width: 200px;
+	height: 200px;
+	&:hover{
+		color: red;
+	}
+	&-nav{
+		background: blue;
+	}
+	&-content &{
+		background:green;
+	}
+	&+&{
+		background:purple;
+	}
+	&&{
+		background:gray;
+	}
+	& &One{
+		background:yellow;
+	}
+}
+.demoOne{
+	.demoTwo{
+		//&代表父级元素到祖先元素
+		&>&List{
+			color: red;
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	=================================
+	嵌套指令和冒泡
