@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //字符串api
+        function indexof(){
+            //请用户输入一条消息
+            var msg=prompt("输入消息内容");
+            //检查消息中是否包含敏感词:我操
+            var i=msg.indexOf("我操");
+            if(i!=-1){//如果发现敏感词，就关小黑屋
+            document.write("<h1 style='color:red'>发现敏感词！关小黑屋！</h1>");
+            }else{//否则，正常显示
+            document.write("<h1>李然说:"+msg+"</h1>");
+            }
+        }
+        function search(){
+            //请用户输入一条消息
+            var msg=prompt("输入消息内容");
+            //检查消息中是否包含敏感词:我操
+            var i=msg.search(
+            /([我卧]|wo)\s*([槽草操艹]|cao)/i);
+            if(i!=-1){//如果发现敏感词，就关小黑屋
+            document.write("<h1 style='color:red'>发现敏感词！关小黑屋！</h1>");
+            }else{//否则，正常显示
+            document.write("<h1>李然说:"+msg+"</h1>");
+            }
+        }
+        function match1(){
+            //请用户输入一条消息
+            var msg=prompt("输入消息内容");
+            //检查消息中是否包含敏感词:我操
+            var arr=msg.match(
+            /([我卧]|wo)\s*([槽草操艹]|cao)/i);
+            //arr:[0:"敏感词",index:下标i]
+            if(arr!=null){//如果发现敏感词，就关小黑屋
+            document.write(`<h1 style='color:red'>在位置${arr.index}，发现敏感词:${arr[0]}</h1>`);
+            }else{//否则，正常显示
+            document.write("<h1>李然说:"+msg+"</h1>");
+            }
+        }
+        function match2(){
+            var str="老师:用小红 我的 朋友。小亮:小红是我的朋友。小然:朋友!小红是我的！";
+            var names=str.match(/小[\u4e00-\u9fa5]/ig);
+            console.log(names);
+        }
+        function replace1(){
+            //var str="老师:用小红 我的 朋友。小亮:小红是我的朋友。小然:朋友!小红是我的！";
+            var str="no zuo no die,no can no bibi";
+            var names=str.match(/小[\u4e00-\u9fa5]/ig);
+            str=str.replace(/小[\u4e00-\u9fa5]/ig,"**");
+            console.log(str);
+            console.log(
+            `共替换${names!=null?names.length:0}处`);
+        }
+        function replace2(){
+            var str="you   can   you   up";
+                    // ↓     ↓     ↓     ↓
+            //function(kword){
+            //         y
+            //  return kword.toUpperCase();->Y
+            //}
+            str=str.replace(/\b[a-z]/ig,function(kword){
+                return kword.toUpperCase();
+            });
+            console.log(str);
+        }
+        function split(){
+            var kwords="macbook     i5  128g";
+            kwords=kwords.split(/\s+/);
+            console.log(kwords);
+        }
+        function trim(){
+            var str="    zhang    dong    ";
+            //仅删除str开头的空字符
+            function ltrim(str){
+                return str.replace(/^\s+/,"");//将开头的空字符替换为""
+            }
+            //仅删除str结尾的空字符
+            function rtrim(str){
+                return str.replace(/\s+$/,"");//将结尾的空字符替换为""
+            }
+            //同时删除str开头和结尾的空字符
+            function trim(str){
+                return str.replace(/^\s+|\s+$/g,"");//将开头和结尾的空字符都替换为""
+            }
+            console.log(ltrim(str))//"zhang    dong    "
+            console.log(rtrim(str))//"    zhang    dong"
+            console.log(trim(str)) //"zhang    dong"
+        }
+        function RegExp(){
+            //数据库: 紫烟  青天  明月
+            //ajax:[紫烟,青天,明月]
+            var kwords=["紫烟","青天","明月"];
+
+            var msg=prompt("请输入消息内容");
+                            //kwords.join("|")
+                            //"紫烟|青天|明月"
+            var reg=new RegExp(kwords.join("|"));
+                //new RegExp("紫烟|青天|明月")
+                //等效于: /紫烟|青天|明月/
+            //var i=msg.search(reg);
+            //if(i!=-1){
+            if(reg.test(msg)){//照样可以判断是否包含
+            document.write("<h1 style='color:red'>包含敏感词！不允许发送！</h1>");
+            }else{
+            document.write("李然说:"+msg);
+            }
+        }
+        function test(){
+            var input=prompt("请输入密码");
+            var reg=/^\d{6}$/;
+            if(reg.test(input)){
+            document.write(`<h1 style="color:green">验证通过！</h1>`)
+            }else{
+            document.write(`<h1 style="color:red">密码格式不正确！</h1>`)
+            }
+        }
+        function exec(){
+            var str="明明喜欢我，却不告诉我。别理我，我想静静。静静是谁？你先告诉我，明明是谁？";
+            var reg=/明明|静静/g;
+            do{//先尝试找一次
+                var arr=reg.exec(str);
+                if(arr!=null)//如果找到，才输出
+                document.write(`在位置 ${arr.index}, 发现敏感词:${arr[0]}<br>`);
+            }while(arr!=null);//如果找到，才可以继续
+        }
+        function fun(){
+            var fun=function(){console.log(1)}
+            fun();//1
+            var fun=function(){console.log(2)}
+            fun();//2
+            var fun=100;
+            console.log(fun);//输出100
+            fun();//输出?
+        }
+        function arguments(){
+            function pay(){
+                //arguments[   ,     ].length
+                //           0   1    
+                 if(arguments.length==0)
+                   console.log("手机支付...");
+                 else if(arguments.length==1)
+                   console.log(`现金支付...,收款:¥${arguments[0].toFixed(2)}`);
+                 else
+                   console.log(`刷卡支付...,从您卡号为${arguments[0]}的银行卡中扣款成功!`);
+            }
+            pay();//手机支付...
+            pay(100);//现金支付...
+            pay("6225 1234","123456");//刷卡支付
+        }
+        function zidiao(){
+            (function(){
+                var start=new Date();
+                alert(`开始加载页面内容,at:`+start.toLocaleTimeString());
+            })();//在控制台: window.start
+            var end=new Date();
+            alert(`页面内容加载完成,at:`+end.toLocaleTimeString());
+            //在控制台: window.end
+        }
+        function scopechain(){
+            var 商店="公园的商店";
+            var 面包="公园卖的面包";
+            function 野餐(){
+                var 面包="自家带的面包";
+                document.write(`吃${面包}<br>`);
+                document.write(`去${商店}买东西<br>`)
+            }
+            野餐();
+            //↓
+            //野餐的函数作用域对象:{ 
+            //  面包:"自家带的面包" 
+            //}
+            //↓
+            //window:{ 
+            //  商店:"公园的商店",
+            //  面包:"公园卖的面包"
+            //}
+        }
+        function bibao1(){
+            function 父母保管压岁钱(){
+                var total=1000;
+                return function(x){
+                  total=total-x;
+                  document.write(`花了${x}元,还剩${total}元<br>`)
+                }
+              }
+              var 孩子花压岁钱=父母保管压岁钱();
+              孩子花压岁钱(100);
+              孩子花压岁钱(100);
+              total=0;
+              孩子花压岁钱(100);
+              console.dir(孩子花压岁钱);
+        }
+        function bibao2(){
+            //1. 用外层函数包裹:要保护的变量和内层函数
+            var zan=(function(){
+                var n=0;
+                //2. 外层函数将内层函数返回到外部
+                return function(){
+                n++;
+                document.write(`赞+1,共${n}个赞<br>`)
+                }
+            })();//3. 调用外层函数获得内层函数对象和一个闭包作用域对象
+            /*zan:function(){
+                n++;
+                document.write(`赞+1,共${n}个赞<br>`)
+            }[[scopes]]->{ n:0 }*/
+            //1. 用外层函数包裹:要保护的变量和内层函数
+            var cai=(function(){
+                var n=0;
+                //2. 外层函数返回内层函数
+                return function(){
+                n++
+                document.write(`踩+1,共${n}个踩<br>`)
+                }
+            })()//3. 调用外层函数获得内层函数对象和闭包作用域对象
+            /*cai:function(){
+                n++
+                document.write(`踩+1,共${n}个踩<br>`)
+            }[[scopes]]->{ n:0 }*/
+            zan();//赞+1,共1个赞
+            zan();//赞+1,共2个赞
+            zan();//赞+1,共3个赞
+            cai();//踩+1,共1个踩
+            cai();//踩+1,共2个踩
+        }
+        function obj(){
+            var n=10;
+            function fun(){
+            n++;
+            console.log(n);
+            }
+            //lilei: Li Lei
+            //       11
+            //       会自我介绍
+            var lilei={
+            sname:"Li Lei",
+            sage:11,
+            intr:function(){
+                console.log(`I'm ${this.sname}, I'm ${this.sage}`);
+            }
+            }
+            console.log(lilei.sage);//访问对象的属性
+            lilei.intr();//调用对象的方法
+            lilei.sage++;//12
+            console.log(lilei.sage);//12
+            lilei.intr();//I'm 11
+            console.log(lilei.height);
+            console.log(lilei["sname"]);
+        }
+        function this0(){
+            var n=1;
+            var obj={
+                n:2,
+                fun:function(){
+                console.log(this.n);
+                }
+            }
+            obj.fun();//2
+            //->obj.fun的作用域{ this->.前的obj }
+            var fun=obj.fun;
+            /*window.*/fun();//1 所有全局的都是window的
+            //->fun的作用域{this->隐藏的.前的window }
+                            //this.n->window.n->n=1
+        }
+        function qianclone(){
+            var lilei={ sname:"Li Lei", sage:11 };
+            //定义函数将一个旧对象克隆出一个新副本
+            function clone(obj){
+            var newObj={};//准备空对象等着接旧对象中克隆过来的每个属性
+            for(var key in obj){//遍历旧对象obj
+                //把旧对象的key属性的值保存到newObj中同名属性中
+                //newObj["key"]=obj["key"];
+                //newObj.key=obj.key;
+                newObj[key]=obj[key];
+                    //sname     sname
+                    //sage      sage 
+            }//循环结束后，旧对象obj中有几个属性，newObj中就有几个相同的属性
+            return newObj;//返回新值
+            }
+            var lilei2=clone(lilei);
+            console.log(lilei);
+            console.log(lilei2);
+        }
+        function constructor(){
+            //1. 定义构造函数，描述所有学生的统一结构
+            function Student(sname,sage){
+                //要求所有学生: 
+                this.sname=sname;//必须有sname属性
+                this.sage=sage;//必须有sage属性
+                this.intr=function(){//必须有格式一致的intr方法
+                    console.log(`I'm ${this.sname}, I'm ${this.sage}`);
+                }
+                }
+                var lilei=new Student("Li Lei",11);
+                var hmm=new Student("Han meimei",12);
+                console.log(lilei);
+                console.log(hmm);
+                lilei.intr();
+                hmm.intr();
+        }
+        function prototype1(){
+            function Student(sname,sage){ 
+                this.sname=sname;
+                this.sage=sage;
+              }
+              Student.prototype.intr=function(){
+                console.log(`I'm ${this.sname}, I'm ${this.sage}`);
+              }
+              Student.prototype.className="初一2班";
+              var lilei=new Student("Li Lei",11);
+              var hmm=new Student("Han meimei",12);
+              console.log(lilei);
+              console.log(hmm);
+              lilei.intr();
+              hmm.intr();
+              console.log(
+                lilei.__proto__==hmm.__proto__);//true
+              console.log(
+                lilei.__proto__==Student.prototype
+              );//true
+              console.dir(Student)
+        }
+        function prototype2(){
+            function Student(sname,sage){ 
+                this.sname=sname;
+                this.sage=sage;
+              }
+              Student.prototype={
+                intr:function(){
+                  console.log(`I'm ${this.sname}, I'm ${this.sage}`);
+                },
+                className:"初一2班"
+              };
+              var lilei=new Student("Li Lei",11);
+              var hmm=new Student("Han meimei",12);
+              console.log(lilei);
+              console.log(hmm);
+              //输出每个学生的班级名
+              console.log(lilei.className,hmm.className)
+              //尝试用一个学生篡改共有的班级名
+              //lilei.className="初二2班";
+              //只能用原型对象修改共有属性
+              Student.prototype.className="初二2班";
+              console.log(lilei.className,hmm.className)
+        }
+        function chongxie1(){
+            var lilei={
+                sname:"Li Lei",
+                sage:11,
+                toString:function(){
+                  return `{ sname:${this.sname}, sage:${this.sage}}`;
+                }
+              }
+              console.log(lilei.toString());
+        }
+        function chongxie2(){
+            function Student(sname,sage){ 
+                this.sname=sname;
+                this.sage=sage;
+              }
+              Student.prototype={
+                toString:function(){
+                  return `{ sname:${this.sname}, sage:${this.sage}}`
+                }
+              }
+              var lilei=new Student("Li Lei",11);
+              var hmm=new Student("Han meimei",12);
+              console.log(lilei.toString());
+              console.log(hmm.toString());
+        }
+        function setPrototype1(){
+          //更改对象继承的原型对象
+          function Student(sname,sage){
+            this.sname=sname;
+            this.sage=sage;
+          }/*prototype->{ }*/
+          var lilei=new Student("Li Lei",18);
+          var hmm=new Student("Han meimei",19);
+          
+          var father={bal:100000000, car:"infiniti"}
+          hmm.__proto__=father;
+          //Object.setPrototypeOf(hmm,father);
+          console.log(lilei);
+          console.log(hmm);
+          console.log(lilei.bal,lilei.car);
+          console.log(hmm.bal,hmm.car);
+        }
+        function setPrototype2(){
+          //设置构造函数的原型对象
+          var father={bal:100000000, car:"infiniti"}
+
+          function Student(sname,sage){
+            this.sname=sname;
+            this.sage=sage;
+          }/*prototype->{ }*/
+
+          Student.prototype=father;
+
+          var lilei=new Student("Li Lei",18);
+          var hmm=new Student("Han meimei",19);
+          console.log(lilei);
+          console.log(hmm);
+          console.log(lilei.bal,lilei.car);
+          console.log(hmm.bal,hmm.car);
+        }
+        function jicheng(){
+          //1. 定义抽象父类型保存相同部分的属性和方法
+          function Enemy(fname,speed){
+            this.fname=fname;
+            this.speed=speed;
+          }
+          Enemy.prototype={
+            fly:function(){        
+              console.log(`${this.fname} 以时速 ${this.speed} 飞行`);    
+            }
+          }
+          function Plane(fname, speed, score){
+            Enemy.call(this,fname,speed);
+            this.score=score;
+          }                                         
+          Plane.prototype={
+            getScore:function(){
+              console.log(`击落${this.fname}得${this.score}分`)
+            }
+          }
+          Plane.prototype.__proto__=Enemy.prototype
+          var f16=new Plane("F16", 1000, 5);
+          f16.fly();  //F16 以时速 1000 飞行
+          f16.getScore();  //击落F16 得 5 分
+          console.log(f16);
+
+        }
+        function static(){
+          //静态方法
+          function Product(){ }
+          Product.prototype={
+          //save()//可将一个新创建的商品对象保存到数据库
+            save:function(){
+              console.log("保存一个新创建的商品到数据库");
+            }
+          }
+          //getById()//可按id查询出一个商品对象
+          Product.getById=function(){
+            console.log("按id查询一个现有商品到程序中");
+          }
+          var p1=new Product();
+          p1.save();//调用实例方法:必须提前创建一个对象
+          Product.getById();//调用静态方法:无需提前创建对象
+        }
+        function strict1(){
+          //严格模式
+          "use strict";
+          var gf;
+          qgf="今晚308,w84u";
+          console.log(gf);
+          console.log(qgf);
+        }
+        function strict2(){
+          "use strict";
+          var eric={ eid:1001, ename:"埃里克" }
+          //设置eric的eid属性为"不可修改"
+          Object.defineProperty(eric,"eid",{
+            writable:false
+          });
+          eric.eid=1002;
+          console.log(eric);
+        }
+
+        function strict3(){
+          //"use strict";
+          //斐波那契数列:
+          //1 1 2 3 5 8 13 21 34 55
+          //1 2 3 4 5 6 7  8  9  10
+          //f(1)=1; f(2)=1;
+          //f(n)=f(n-1)+f(n-2)
+          /*function f(n){
+            if(n<3) return 1;
+            else{
+              return arguments.callee(n-1)+arguments.callee(n-2);//arguments.callee: 函数内自动创建的，引用当前函数本身的关键字
+            }
+          }*/
+          function f(n){
+            if(n<3) return 1;
+            else{
+              var f1=1,f2=1,fn;
+              for(var i=3;i<=n;i++){
+                fn=f1+f2;
+                f1=f2;
+                f2=fn;
+              }
+              return fn;
+              /*f1   f2   fn
+                1 +  1 =  2   n=3
+
+                1 +  2 =  3   n=4
+
+                2 +  3 =  5   n=5
+                3    5    8   n=6
+                ... ...
+              */
+            }
+          }
+          console.log(f(10));
+
+        }
+        function strict4(){
+          "use strict";
+          function Enemy(fname,speed){
+            this.fname=fname;
+            this.speed=speed;
+          }
+          Enemy("F16",1000);//this->window
+              //use strict:this->undefined
+          console.log(window.fname);
+          console.log(window.speed);
+        }
+        function strict5(){
+          "use strict";
+          var eric={eid:1001,ename:"埃里克",salary:12000}
+          var miniObj=Object.getOwnPropertyDescriptor(
+            eric,"eid"
+          );
+          console.log(miniObj);
+          //eid只读,ename禁止删除,salary禁止遍历
+          Object.defineProperties(eric,{
+            eid:{writable:false,configurable:false},
+            ename:{configurable:false},
+            salary:{enumerable:false,configurable:false}
+          })
+          /*Object.defineProperty(eric,"eid",{
+            writable:true,
+            configurable:true
+          });*/
+          //eric.eid=1002;
+          //delete eric.ename;
+          for(var key in eric){
+            console.log(`${key} : ${eric[key]}`);
+          }
+          console.log(eric);
+        }
+        function setget(){
+          //访问器属性
+          var eric={eid:1001,ename:"埃里克",_age:23}
+          Object.defineProperties(eric,{
+            _age:{enumerable:false,configurable:false},
+            age:{
+              get:function(){ 
+                console.log("自动调用age的get");
+                return this._age; 
+              },
+              set:function(value){
+                console.log("自动调用age的set，value="+value);
+                if(value>=18&&value<=65)
+                  this._age=value;
+                else throw Error("年龄超范围！")
+              },
+              enumerable:true, configurable:false
+            }
+          });
+          console.log(eric.age);
+          eric.age=24;
+          console.log(eric.age);
+          eric.age=-2;
+          //age: 18~65
+        }
+        function shuxingbaohu1(){
+            //防扩展: 禁止给当前对象添加新属性
+            //Object.preventExtensions(obj)
+            //密封: 在兼具防扩展的同时，又禁止删除现有属性
+           // Object.seal(obj)
+                //原理: 1. Object.preventExtensions(obj)
+                     // 2. 自动将所有属性的configurable都设置为false
+            //冻结: 在兼具密封的基础上，又禁止修改属性值
+                // Object.freeze(obj)
+                //原理: 1. Object.seal(obj)
+                     // 2. 又自动将所有属性的writable都设置为false
+
+            "use strict";
+            function Emp(eid,ename,salary,age){
+            Object.defineProperties(this,{
+                eid:{
+                value:eid,
+                writable:false,
+                enumerable:true
+                },
+                ename:{
+                value:ename,
+                writable:true,
+                enumerable:true
+                },
+                salary:{
+                value:salary,
+                writable:true,
+                enumerable:false
+                },
+                _age:{
+                writable:true,
+                enumerable:false
+                },
+            })
+            this.age=age;
+            //Object.preventExtensions(this);
+            Object.seal(this);
+            }
+            //Emp.prototype.age={
+            Object.defineProperty(Emp.prototype,"age",{
+            get:function(){ return this._age; },
+            set:function(value){
+                if(value>=18&&value<=65)
+                this._age=value;
+                else throw Error("年龄超范围");
+            },
+            enumerable:true,
+            configurable:false
+            });
+            var eric=new Emp(1001,"埃里克",12000,25);
+            //eric.eid=1002;
+            //delete eric.ename;
+            for(var key in eric){
+            console.log(`${key} : ${eric[key]}`);
+            }
+            //eric.age=-2;
+            //eric自己没有age，就去Emp.prototype找
+            //Emp.prototype刚好有一个访问器属性age
+            //试图给访问器属性age赋值,自动触发set:
+            //执行this._age=value
+            //this->.前的eric，value就保存到eric._age中
+            //eric.Age=-2;
+            console.log(eric);
+        }
+        function shuxingbaohu2(){
+            "use strict";
+            var dbConfig={
+            ip:"localhost",
+            port:3306,
+            db:"xz",
+            user:"root",
+            pwd:""
+            };
+            Object.freeze(dbConfig);
+            dbConfig.ip="192.168.0.100";
+            console.log(dbConfig);
+        }
+        function createobj(){
+           // 原理: 1. 创建一个空对象
+                //2. 让空对象继承father
+                //3. 为新对象添加自有属性
+            var father={bal:100000000,car:"infiniti"};
+            var hmm=Object.create(father,{
+                //defineProperties
+                bao:{
+                value:"LV",
+                writable:true,
+                enumerable:true,
+                configurable:false,
+                },
+                phone:{
+                value:"iPhoneXS",
+                writable:true,
+                enumerable:true,
+                configurable:false,
+                }
+            });
+            console.log(hmm);
+        }
+        function call_apply(){
+            //调用函数，并临时替换一次this: 
+            function calc(base,bonus1, bonus2){
+                document.write(`${this.ename}的总工资是:${base+bonus1+bonus2}<br>`);
+              }
+              var lilei={ ename:"Li Lei" }
+              var hmm={ ename:"Han Meimei" }
+              calc.call(lilei,10000,2000,3000);
+              var arr=[4000,5000,3000];
+              calc.apply(hmm,arr);
+        }
+        
+        function bind(){
+            //基于原函数，创建一个一模一样的新函数，并永久绑定this
+            function jump(){
+                console.log(`${this.sname}跳一次`);
+              }
+              var lilei={ sname:"Li Lei" }
+              var hmm={ sname:"Han Meimei" }
+              var lilei_jump=jump.bind(lilei);
+              //lilei_jump:function(){
+              //  console.log(`${lilei.sname}跳一次`);
+              //}
+              var hmm_jump=jump.bind(hmm);
+              //hmm_jump:function(){
+              //  console.log(`${hmm.sname}跳一次`);
+              //}
+              setInterval(lilei_jump,1000);
+              setInterval(hmm_jump,1000);
+        }
+        //数组API
+        function indexof(){
+            var arr=[1,2,3,4,3,2,1];
+                   //0 1 2 3 4 5 6
+            console.log(
+            arr.indexOf(3),  //2
+            arr.indexOf(3,3),//4
+            arr.indexOf(3,5),//-1
+            arr.indexOf(5)   //-1
+            );
+        }
+        function every(){
+            //判断数组中的元素是否都符合要求:
+           // var bool=arr.every(function(val, i, arr){
+           // return 判断条件;
+           // })
+           var arr1=[2,4,6,4,2];
+           var arr2=[1,2,3,4,5];
+           //判断哪个数组全由偶数组成:
+           console.log(
+             arr1.every(function(elem){
+               return elem%2==0;
+             }), //true
+             arr2.every(function(elem){
+               return elem%2==0;
+             })  //false
+           );
+           //判断哪个数组是升序排列
+           console.log(
+             arr1.every(function(elem,i,arr){
+               return i<arr.length-1?elem<=arr[i+1]:true;
+             }), //false
+             arr2.every(function(elem,i,arr){
+               return i<arr.length-1?elem<=arr[i+1]:true;
+             })  //true
+           );
+        }
+        function some(){
+            //判断数组中是否包含符合要求的元素:
+            //var bool=arr.some(function(elem,i,arr){
+            //return 判断条件
+           //})
+        }
+        //遍历
+        function foreach(){
+            var arr=[1,2,3,4,5];
+            //将原数组中每个元素值*2
+            arr.forEach(function(elem,i,arr){
+            //elem*=2;
+            arr[i]=elem*2;
+            //arr[i]*=2;
+            });
+            console.log(arr);//[2,4,6,8,10]
+        }
+        function map(){
+            var arr=[1,2,3,4,5];
+            //将数组中每个元素值*2,放入新数组返回
+            var arr2=arr.map(
+            function(elem,i,arr){
+                return elem*2;
+            }
+            //return [2, 4, 6, 8, 10]
+            );
+            console.log(arr);//[1,2,3,4,5]
+            console.log(arr2);//[2,4,6,8,10]
+        }
+        //过滤
+        function filter(){
+            var arr=[1,2,3,4,5];
+            var evens=arr.filter(function(elem,i,arr){
+              return elem%2==0;
+            })
+            console.log(arr);
+            console.log(evens); 
+        }
+        //汇总
+        function reduce1(){
+            //汇总: 将数组中的所有元素，经过统计，得出一个最终结论
+            //var result=arr.reduce(function(prev,elem,i,arr){
+            //return 将当前元素的内容汇总到prev中
+            //},start);
+            //start: 开始的基础值
+            //prev: 截止目前位置，之前的元素的临时汇总值
+
+            var class1=[1,3,5,7,9];
+            var sum=class1.reduce(function(prev,elem){
+            return prev+elem;
+            },0);
+            console.log(sum);//25;
+            var class2=[2,4,6,8,10];
+            sum=class2.reduce(function(prev,elem){
+            return prev+elem;
+            },sum);
+            console.log(sum);//55
+        }
+        function reduce2(){
+            var str="helloworld";
+            var result=str.split("").reduce(
+            function(prev,elem){
+                //elem: 依次获得每个字母: h e l l o ...
+                //prev: { h:1, e:1, l:3,...}
+                if(prev[elem]===undefined){
+                prev[elem]=1;//如果没有当前字母，就添加一个，数量暂时为1
+                }else{//如果已经有了当前字母，就数量直接+1
+                prev[elem]++;
+                }
+                return prev;
+            },
+            {}//统计开始时,prev暂时是一个空对象
+            );
+            console.log(result);
+        }
+        //ES6
+        function zuoyongyu(){
+          //js只有全局作用域和函数作用域，没有块级作用域
+          //可通过函数自调用解决
+          var t=0;//记录总时间
+          function conn(){
+            document.write(`建立连接耗时0.3s<br>`);
+            t+=0.3;
+          }
+          function query(){
+            document.write(`查询数据耗时0.8s<br>`);
+            t+=0.8;
+
+            var err=false;
+            if(err){//没有块级作用域
+            //(function(){//块级作用域
+            //  var _t;undefined
+              var t=new Date();
+              document.write(`<b style="color:red">出错啦,at:${t.toLocaleString()}</b><br>`);
+            //})()
+            }
+          }
+          conn();
+          query();
+          document.write(`总耗时:${t}s`)
+        }
+        function defaultparam(){
+          function ajax(url,type="get"){
+            document.write(`向服务端地址${url},发送${type}类型的请求<br>`);
+          }
+          ajax("http://localhost:3000/users/getUsers");
+          ajax("http://localhost:3000/users/login","post");
+        }
+        function rest(){
+          //剩余参数
+          function calc(ename,...bonus){
+            document.write(`${ename}的总工资是:${bonus.reduce((prev,elem)=>prev+elem)}<br>`)
+          }
+          calc("Li Lei",10000,2000);
+          calc("Han Meimei",4000,5000,1000,3000)
+        }
+        function spread(){
+          //散播
+          //执行时: ...会先将数组打散为单个元素，再分别传入fun中
+          console.log(Math.max(2,7,1,5));//7
+          var arr=[2,7,1,5];
+          console.log(Math.max(arr));//NaN
+          console.log(Math.max.apply(null,arr));//7
+          console.log(Math.max(...arr));//7
+        }
+        //箭头函数
+        function arrow1(){
+          var arr=[12,3,123,1,2,23];
+          arr.sort((a,b)=>a-b);
+          console.log(arr);
+
+          var str="you can you up";
+          str=str.replace(
+            /\b[a-z]/ig, kword=>kword.toUpperCase()
+          );
+          console.log(str);
+
+          var arr1=[1,2,3,4,5];;
+          arr1.forEach((elem,i,arr)=>arr[i]=elem*2);
+          console.log(arr1);
+
+          var arr2=[1,2,3,4,5];
+          var evens=arr2.map(elem=>elem*2)
+          console.log(arr2);
+          console.log(evens);
+
+          (()=>{
+            var t=new Date();
+            alert(`页面内容加载完成,at:${t.toLocaleString()}`);
+          })()
+
+          setInterval(
+            ()=>console.log("跳一次"),
+            1000
+          );
+        }
+        function arrow2(){
+          //箭头函数会使函数内外的this指向一致
+          var lilei={
+            sname:"Li Lei",
+            friends:["Tom","Jerry","Jack","Rose"],
+            intr:function(){
+              //this->lilei
+              this.friends.forEach(
+                (elem)=>{//function(elem){
+                  document.write(`${this.sname} 认识 ${elem}<br>`)
+                }//.bind(this)
+              )
+            }
+          }
+          lilei.intr();
+          
+          //this->window
+          var lilei={
+            sname:"Li Lei",
+            intr:()=>{//箭头函数使得this指向了window
+              document.write(`我是 ${this.sname}`)
+            }
+          }
+          lilei.intr();
+        }
+        //结构
+        function destruct1(){
+          //数组解构
+          //对象解构
+          //参数解构
+          var date=[2019,1,4];
+                  //0    1 2
+                  //0    1 2
+              var [y,   m,d]=date;
+          console.log(y,m,d);
+
+          var date={y:2019, m:1, d:4};
+            //var {y:y,    m:m, d:d}=date;
+              var {y,      m,   d}=date;//简写
+          console.log(y,m,d);
+
+          var users={
+            login:function(){
+              console.log("登录...");
+            },
+            logout:function(){
+              console.log("注销...");
+            },
+            islogin:function(){
+              console.log("判断是否已登录...");
+            }
+          }
+          //var {login:login, logout:logout}=users;
+          var {login,logout}=users;
+          login();
+          logout();
+        }
+        function destruct2(){
+          //1. 将形参列表定义为对象语法: 
+          function ajax({url,type,data}){
+            type=type||"get";//如果type是undefined就选get，如果type不是undefined，就依然使用type
+            document.write(`向服务端地址${url},发送${type}类型的请求<br>`);
+            if(data)
+              document.write(`携带参数:${data}<br>`);
+            else document.write(`不带参数<br>`);
+          }
+          //2. 调用时: 将传入的实参值放在对象结构中传入
+          //url type data 三个参数都有
+          ajax({
+            url:"http://localhost:3000/users/login",type:"post",
+            data:"uname=dingding&upwd=123456"
+          });
+          //只有第一个参数url
+          ajax({
+            url:"http://localhost:3000/users/logout"
+          })
+          //只有url和data
+          ajax({
+            url:"http://localhost:3000/products/getById",
+            data:"lid=5"
+          });
+          //只有url和type
+          ajax({
+            url:"http://localhost:3000/users/upload",type:"post"
+          })
+        }
+        function bianli(){
+          //遍历 for .. of
+          function add(...args){
+            var sum=0;
+          //for(var elem of arguments){
+            for(var elem of args){
+              sum+=elem;
+            }
+            return sum;
+          }
+          console.log(
+            add(1,2,3),//6
+            add(1,2,3,4,5),//15
+          );
+        }
+        //ES6 面向对象简化语法
+        function obj1(){
+          var sname="Li Lei", sage=11;
+          var lilei={
+            sname,//sname:sname
+            sage, //sage:sage
+            intr(){//:function(){
+              console.log(`I'm ${this.sname}, I'm ${this.sage}`);
+            }
+          }
+          console.log(lilei);
+          lilei.intr();
+        }
+        function obj2(){
+          //1. 用class{}包裹构造函数和原型对象
+          class Student{
+            //2. 构造函数名提升为类型名，构造函数统一更名为constructor
+            constructor(sname,sage){
+              this.sname=sname;
+              this.sage=sage;
+            }
+            //3. 所有原型对象方法可直接写在class中
+            intr(){
+              console.log(`I'm ${this.sname}, I'm ${this.sage}`);
+            }
+          }
+          var lilei=new Student("Li Lei",11);
+          console.log(lilei);
+        }
+        function obj3(){
+          //准备: 先将Enemy和Plane两种类型改为class
+          class Enemy{
+            constructor(fname,speed){
+              this.fname=fname;
+              this.speed=speed;
+            }
+            fly(){
+              console.log(`${this.fname}以时速${this.speed}飞行`);
+            }
+          }
+          //1.让子类型继承父类型: Plane extends Enemy
+          //不再需要Object.setPrototypeOf
+          class Plane extends Enemy{
+            constructor(fname,speed,score){
+              //2.用super(fname,speed)调用父类型构造
+              //不再需要call，不再需要传this
+              super(fname,speed);
+              this.score=score;
+            }
+            getScore(){
+              console.log(`击落${this.fname}得${this.score}分`);
+            }
+          }
+
+          var f16=new Plane("F16",1000,5);
+          console.log(f16);
+          f16.fly();
+          f16.getScore();
+        }
+        function obj4(){
+          //静态方法
+          class Product{
+            constructor(){}
+            save(){ 
+              console.log("保存当前商品到数据库去");
+            }
+            static getById(){
+              console.log("按id查找一个商品");
+            }
+          }
+          
+          var p1=new Product();
+          p1.save();
+          Product.getById();
+        }
+        function obj5(){
+          class Emp{
+            constructor(eid,ename,age){
+              this.eid=eid;
+              this.ename=ename;
+              Object.defineProperty(this,"_age",{
+                writable:true,
+                enumerable:false,
+                configurable:false
+              })
+              this.age=age;
+            }
+            get age(){return this._age}
+            set age(value){
+              if(value>=18&&value<=65)
+                this._age=value;
+              else throw Error("年龄超范围");
+            }
+          }
+          var eric=new Emp(1001,"埃里克",25);
+          console.log(eric.age);
+          eric.age=26;
+          console.log(eric.age);
+          eric.age=-2;
+        }
+        function callback1(){
+          //回调函数当参数用形成回调地狱，使用promise解决
+          //实现多个异步调用，顺序执行
+          function liang(callback){//异步
+            console.log("亮起跑...");
+            setTimeout(function(){
+              console.log("亮到达终点!")
+            //亮结束后，承诺一定自动执行提前托付的任务
+              callback();
+            },6000)
+          }
+          function ran(callback){//异步
+            console.log("然起跑...");
+            setTimeout(function(){
+              console.log("然到达终点!");
+              callback();
+            },4000)
+          }
+          function dong(){//异步
+            console.log("东起跑...");
+            setTimeout(function(){
+              console.log("东到达终点!");
+            },2000)
+          }
+          liang(
+            //fun
+            function(){//亮的下一项任务
+              ran(
+                //fun
+                function(){//然的下一项任务
+                  dong();
+                }
+              );
+            }
+          );
+          
+        }
+        //错误处理: 2步: 
+          //1.	new Promise(function(open,err){
+            //如果出错: 
+          //    err(“错误消息”) //通向最后的.catch()
+          //})
+          //2.	在函数1().then().then()…..catch(function(errMsg){ … })
+          //无论中间哪个then出错，都会执行最后的catch，并将then中err(“错误消息”)传给errMsg。
+
+        function callback2(){
+          //1. 不要callback参数
+          function liang(){//异步
+            //2. 用new Promise(function(){})包裹原函数所有函数体
+            return new Promise(function(open){//附赠的开关
+              console.log("亮起跑...");
+              setTimeout(function(){
+                console.log("亮到达终点!")
+                //3. 异步调用执行完，打开开关
+                open();
+              },6000)
+            })
+          }
+          function ran(){//异步
+            return new Promise(function(open){
+              console.log("然起跑...");
+              setTimeout(function(){
+                console.log("然到达终点!");
+                open();
+              },4000)
+            })
+          }
+          function dong(){//异步
+            console.log("东起跑...");
+            setTimeout(function(){
+              console.log("东到达终点!");
+            },2000)
+          }
+          liang()//return new Promise
+          .then(ran)//当liang中open()后，才能执行ran() return new Promise
+          .then(dong)//当ran中open()后，才能执行dong()
+        }
+    </script>
+</body>
+</html>
